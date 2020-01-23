@@ -4,50 +4,48 @@ import { WebView } from 'react-native-webview';
 import axios from 'axios';
 
 
+// getSearchData = async(title, name) => {
 
-export default class extends React.Component {
-    state = {
-        isLoading: true,
-        iframe: "notyet"
-    }
+//     const searchUrl = `https://api.soundcloud.com/tracks?q=${title}%20${name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`;
+  
+//     const searchData = await axios.get(searchUrl);
+//     const soundCloudUrl = searchData.data[0].permalink_url
 
-    getSearchData = async(title, name) => {
-    
-        const searchUrl = `https://api.soundcloud.com/tracks?q=${title}%20${name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`;
-    
-        const searchData = await axios.get(searchUrl);
-        const soundCloudUrl = searchData.data[0].permalink_url
-    
-        const iframeUrl = `https://soundcloud.com/oembed.json?auto_play=true&url=${soundCloudUrl}`;
-        const iframeData = await axios.get(iframeUrl);
-        const iframeHtml = iframeData.data.html;
-        console.log(iframeHtml);
-    }
+//     const iframeUrl = `https://soundcloud.com/oembed.json?auto_play=true&url=${soundCloudUrl}`;
+//     const iframeData = await axios.get(iframeUrl);
+//     const iframeHtml = iframeData.data.html;
+//     console.log(iframeHtml);
+//     console.log(App.App.state.isLoading);
+//   }
 
-    render() {
-        return (
-            <TouchableOpacity
-                onPress={() => { this.getSearchData(this.props.title, this.props.name) }}
-                style={styles.container}>
-                <Image
-                    style={{ width: 70, height: 70 }}
-                    source={{ uri: this.props.cover }}
-                />
 
-                <View style={styles.song_info}>
-                    <Text style={styles.song_info_rank}>{this.props.rank}</Text>
-                    <View style={styles.song_info_2}>
-                        <Text style={styles.song_info_2_title}>{this.props.title}</Text>
-                        <Text style={styles.song_info_2_name}>{this.props.name}</Text>
-                    </View>
 
+export default function Chart({rank, title, name, cover}) {
+
+    return (
+        <TouchableOpacity
+            onPress={() => { alert(title, name) }}
+            style={styles.container}>
+
+            <Image
+                style={{ width: 70, height: 70 }}
+                source={{ uri: cover }}
+            />
+
+            <View style={styles.song_info}>
+                <Text style={styles.song_info_rank}>{rank}</Text>
+                <View style={styles.song_info_2}>
+                    <Text style={styles.song_info_2_title}>{title}</Text>
+                    <Text style={styles.song_info_2_name}>{name}</Text>
                 </View>
-            </TouchableOpacity>
-        );
-    }
+
+            </View>
+        </TouchableOpacity>
+
+
+
+    );
 }
-
-
 
 const styles = StyleSheet.create({
     container: {

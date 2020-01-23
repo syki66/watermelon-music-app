@@ -8,11 +8,13 @@ import { WebView } from 'react-native-webview';
 
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
 
+let iframeArray = [];
 
-export default class extends React.Component {
+export default class App extends React.Component {
   state = {
     isLoading: true,
-    rankData: []
+    rankData: [],
+    iframeData : []
   }
 
 
@@ -47,13 +49,40 @@ export default class extends React.Component {
 
     rankArray.splice(0,1); //첫번째 쓰레기값 제거
 
+
     this.setState({rankData: rankArray});
 
   }
+
+
+
+  getSearchData = async() => {
+
+    this.state.rankData.map( async(each) => {
+      const searchData = await axios.get(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`);
   
-  componentDidMount = async() => {
+      try{
+        const iframeData = await axios.get(`https://soundcloud.com/oembed.json?auto_play=true&url=${searchData.data[0].permalink_url}`);
+        iframeArray[each.rank] = iframeData.data.html;
+  
+      } catch (err) {
+        console.log("에러 메시지", err);
+        iframeArray[each.rank] = null;
+      }
+
+    })
+
+    this.setState({iframeData: iframeArray});
+  }
+
+
+  componentDidMount = async () => {
     await this.getChartData();
+    this.getSearchData();
     this.setState({isLoading: false});
+    
+    
+    
   }
 
   render() {
@@ -62,7 +91,11 @@ export default class extends React.Component {
         <Text>아직로딩중</Text>
       ) : (
           <SafeAreaView>
-
+            <View style={styles.container}>
+              <WebView
+                source={{ html: this.state.rankData[0].title }}
+              />
+            </View>
             <ScrollView>
 
               <View>
