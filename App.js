@@ -8,13 +8,38 @@ import { WebView } from 'react-native-webview';
 
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
 
-let iframeArray = [];
+
 
 export default class App extends React.Component {
   state = {
     isLoading: true,
     rankData: [],
-    iframeData : []
+    iframe: [],
+    theIframe: "null"
+  }
+
+
+  getIframe = () => {
+    let iframeArray = [];
+
+    this.state.rankData.map((each, i) => {
+
+        fetch(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`).then((response) => {
+          return response.json();
+        }).then((res) => {
+          fetch(`https://soundcloud.com/oembed.json?auto_play=true&url=${res[0].permalink_url}`).then((response) => {
+            return response.json();
+          }).then((result) => {
+            iframeArray[i] = result.html;
+            // iframeArray[i] = result.html;
+          })
+        }).catch( (error) => {
+          console.log(each.rank, error);
+        })
+
+    });
+
+    this.setState({ iframe: iframeArray });
   }
 
 
@@ -47,41 +72,21 @@ export default class App extends React.Component {
       rankArray[index+1].cover = $(element).find('img').attr('src');
     });
 
-    rankArray.splice(0,1); //첫번째 쓰레기값 제거
+    rankArray.splice(0, 1); //첫번째 쓰레기값 제거
+    
 
-
-    this.setState({rankData: rankArray});
+    this.setState({rankData: rankArray, isLoading: false});
 
   }
 
-
-
-  getSearchData = async() => {
-
-    this.state.rankData.map( async(each) => {
-      const searchData = await axios.get(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`);
-  
-      try{
-        const iframeData = await axios.get(`https://soundcloud.com/oembed.json?auto_play=true&url=${searchData.data[0].permalink_url}`);
-        iframeArray[each.rank] = iframeData.data.html;
-  
-      } catch (err) {
-        console.log("에러 메시지", err);
-        iframeArray[each.rank] = null;
-      }
-
-    })
-
-    this.setState({iframeData: iframeArray});
+  showIframe = (index) => {
+    this.setState({theIframe: this.state.iframe[index]});
   }
 
 
-  componentDidMount = async () => {
+  componentDidMount = async() => {
     await this.getChartData();
-    this.getSearchData();
-    this.setState({isLoading: false});
-    
-    
+    this.getIframe();
     
   }
 
@@ -92,23 +97,28 @@ export default class App extends React.Component {
       ) : (
           <SafeAreaView>
             <View style={styles.container}>
-              <WebView
-                source={{ html: this.state.rankData[0].title }}
+              <WebView 
+                source={{html: this.state.theIframe}}
               />
             </View>
             <ScrollView>
 
               <View>
-                {this.state.rankData.map((each) => {
-                  return <Chart
-                    key={each.rank}
-                    rank={each.rank}
-                    title={each.title}
-                    name={each.name}
-                    cover={each.cover}
-                  />
+                {this.state.rankData.map((each, i) => {
+                  return <TouchableOpacity
+                    onPress={() => { this.showIframe(i) }}
+                  >
+                    <Chart
+                      key={each.rank}
+                      rank={each.rank}
+                      title={each.title}
+                      name={each.name}
+                      cover={each.cover}
+                    />
+                  </TouchableOpacity>
                 })}
               </View>
+
             </ScrollView>
           </SafeAreaView>
         )

@@ -4,27 +4,12 @@ import { WebView } from 'react-native-webview';
 import axios from 'axios';
 
 
-// getSearchData = async(title, name) => {
-
-//     const searchUrl = `https://api.soundcloud.com/tracks?q=${title}%20${name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`;
-  
-//     const searchData = await axios.get(searchUrl);
-//     const soundCloudUrl = searchData.data[0].permalink_url
-
-//     const iframeUrl = `https://soundcloud.com/oembed.json?auto_play=true&url=${soundCloudUrl}`;
-//     const iframeData = await axios.get(iframeUrl);
-//     const iframeHtml = iframeData.data.html;
-//     console.log(iframeHtml);
-//     console.log(App.App.state.isLoading);
-//   }
-
 
 
 export default function Chart({rank, title, name, cover}) {
 
     return (
-        <TouchableOpacity
-            onPress={() => { alert(title, name) }}
+        <View
             style={styles.container}>
 
             <Image
@@ -40,7 +25,7 @@ export default function Chart({rank, title, name, cover}) {
                 </View>
 
             </View>
-        </TouchableOpacity>
+        </View>
 
 
 
