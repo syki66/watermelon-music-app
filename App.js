@@ -9,13 +9,12 @@ import { WebView } from 'react-native-webview';
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
 
 
-
 export default class App extends React.Component {
   state = {
     isLoading: true,
     rankData: [],
     iframe: [],
-    theIframe: "null"
+    theIframeSrc: "null"
   }
 
 
@@ -79,8 +78,13 @@ export default class App extends React.Component {
 
   }
 
-  showIframe = (index) => {
-    this.setState({theIframe: this.state.iframe[index]});
+  showIframeSrc = (index) => {
+    //this.setState({theIframeSrc: this.state.iframe[index]});
+    const $ = cheerio.load(this.state.iframe[index]); // iframe에서 src값만 추출
+    const iframeSrc = $('iframe').attr('src');
+    console.log(iframeSrc)
+    this.setState({theIframeSrc: iframeSrc})
+
   }
 
 
@@ -96,17 +100,13 @@ export default class App extends React.Component {
         <Text>아직로딩중</Text>
       ) : (
           <SafeAreaView>
-            <View style={styles.container}>
-              <WebView 
-                source={{html: this.state.theIframe}}
-              />
-            </View>
+              
             <ScrollView>
 
               <View>
                 {this.state.rankData.map((each, i) => {
                   return <TouchableOpacity
-                    onPress={() => { this.showIframe(i) }}
+                    onPress={() => { this.showIframeSrc(i) }}
                   >
                     <Chart
                       key={each.rank}
@@ -120,6 +120,47 @@ export default class App extends React.Component {
               </View>
 
             </ScrollView>
+
+
+            <View style={styles.container}>
+                <WebView
+                  scrollEnabled = "false"
+                  
+                  source={{
+                    html: (`
+                  <html>
+                    <head>
+                      <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
+                      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+                      <script src="http://w.soundcloud.com/player/api.js"></script>
+                      <script>
+                            $(document).ready(function() {
+                          var widget = SC.Widget(document.getElementById("soundcloud_widget"));
+                          widget.bind(SC.Widget.Events.READY, function() {
+                              console.log("Ready...");
+                          });
+                          $("button").click(function() {
+                              widget.toggle();
+                          });
+                        });
+                      </script>
+                    </head>
+                  <body style="margin:0px">
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; ">
+                      <iframe id="soundcloud_widget"
+                        src=${this.state.theIframeSrc}
+                        width="100%"
+                        height="100%"
+                        frameborder="no"></iframe>
+                      <button>Play / Pause</button>
+                    </div>
+                  </body>
+                </html>
+              `)
+                  }}
+                />
+              </View>
+
           </SafeAreaView>
         )
     );
@@ -128,7 +169,12 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 150,
-    position: "relative"
+    height: 100,
+    width: "100%",
+    alignSelf: 'stretch',
+    position: "absolute",
+    bottom: 0,
+    
   }
+
 });
