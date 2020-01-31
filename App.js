@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, Alert, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, Alert, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import cheerio from 'cheerio-without-node-native';
 import axios from 'axios';
 import Chart from './Chart';
@@ -7,6 +7,8 @@ import { WebView } from 'react-native-webview';
 
 
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
+
+const screenWidth = Dimensions.get('window').width; //핸드폰 가로 사이즈
 
 
 export default class App extends React.Component {
@@ -130,31 +132,94 @@ export default class App extends React.Component {
                     html: (`
                   <html>
                     <head>
-                      <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
+                    <meta name="viewport" content="initial-scale=0.5, maximum-scale=0.5">
                       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
                       <script src="http://w.soundcloud.com/player/api.js"></script>
                       <script>
-                            $(document).ready(function() {
-                          var widget = SC.Widget(document.getElementById("soundcloud_widget"));
-                          widget.bind(SC.Widget.Events.READY, function() {
-                              console.log("Ready...");
-                          });
-                          $("button").click(function() {
-                              widget.toggle();
-                          });
+
+
+                      $(document).ready(function() {
+
+                         $('.parent_playbar').height( ($('.parent_playbar').width()) / 5 );
+                         $('.playbar').height( ($('.parent_playbar').width()) / 5 );
+
+
+                         $('.song_info').height( ($('.parent_playbar').width()) / 5 );
+
+
+                        var widget = SC.Widget(document.getElementById("soundcloud_widget"));
+
+
+
+
+                        
+                        $(".play").click(function() {
+                          widget.toggle();
                         });
+                  
+
+   
+                          let soundPos;
+                          let duration;
+                          function soundPosition(){
+                   
+                              widget.getPosition(function (pos) {
+                   
+                                  widget.getDuration(function (dur) {
+                                      soundPos = pos/dur;
+                                      duration = dur;
+                                  });
+                   
+                              });
+                              $('.playbar').width(soundPos*100+"%");
+                   
+                          }
+                   
+                   
+                          setInterval(  soundPosition, 100);
+                   
+                   
+                          $('.parent_playbar').click(function (e) {
+                              var parentOffset = $(this).offset();
+                              var relX = e.pageX - parentOffset.left;
+
+                              pickedPosition = relX / $('.parent_playbar').width();
+                   
+                              widget.seekTo(pickedPosition * duration);
+                              
+                          });
+                   
+              
+                      });
+
+
+
                       </script>
                     </head>
-                  <body style="margin:0px">
-                    <div style="display:grid; grid-template-columns: 2fr 1fr; ">
-                      <iframe id="soundcloud_widget"
-                        src=${this.state.theIframeSrc}
-                        width="100%"
-                        height="100%"
-                        frameborder="no"></iframe>
-                      <button>Play / Pause</button>
-                    </div>
-                  </body>
+
+
+
+                    <body style="margin:0px">
+
+
+                      <div style="display:grid; grid-template-rows: 1fr 1fr;">
+                  
+
+                          <div class="song_info" style="display: grid; grid-template-columns: 1fr 1fr;">
+                              <iframe id="soundcloud_widget" style="display:block;"
+                                  src=${this.state.theIframeSrc}
+                                  frameborder="no"></iframe>
+                              <div class="play" style="background-color: red"></div>
+                          </div>
+                  
+
+                          <div class="parent_playbar" style=" width: 100%; background-color: gray; ">
+                              <div class="playbar" style=" background-color: orange; "></div>
+                          </div>
+                  
+
+                      </div>
+                    </body>
                 </html>
               `)
                   }}
@@ -169,7 +234,7 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
+    height: screenWidth * 0.4,
     width: "100%",
     alignSelf: 'stretch',
     position: "absolute",
