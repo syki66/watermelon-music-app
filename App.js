@@ -9,14 +9,14 @@ import { WebView } from 'react-native-webview';
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
 
 const screenWidth = Dimensions.get('window').width; //핸드폰 가로 사이즈
-
+console.log(screenWidth)
 
 export default class App extends React.Component {
   state = {
     isLoading: true,
     rankData: [],
-    iframe: [],
-    theIframeSrc: "null"
+    iframeSrc: [],
+    pickedIframeSrc: "null"
   }
 
 
@@ -28,19 +28,22 @@ export default class App extends React.Component {
         fetch(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`).then((response) => {
           return response.json();
         }).then((res) => {
-          fetch(`https://soundcloud.com/oembed.json?auto_play=true&url=${res[0].permalink_url}`).then((response) => {
-            return response.json();
-          }).then((result) => {
-            iframeArray[i] = result.html;
-            // iframeArray[i] = result.html;
-          })
+            iframeArray[i] = res[0].permalink_url;
         }).catch( (error) => {
           console.log(each.rank, error);
         })
 
     });
 
-    this.setState({ iframe: iframeArray });
+    this.setState({ iframeSrc: iframeArray });
+  }
+
+
+  showIframeSrc = (index) => {
+
+    console.log(this.state.iframeSrc[index])
+    this.setState({pickedIframeSrc: this.state.iframeSrc[index]})
+
   }
 
 
@@ -77,15 +80,6 @@ export default class App extends React.Component {
     
 
     this.setState({rankData: rankArray, isLoading: false});
-
-  }
-
-  showIframeSrc = (index) => {
-    //this.setState({theIframeSrc: this.state.iframe[index]});
-    const $ = cheerio.load(this.state.iframe[index]); // iframe에서 src값만 추출
-    const iframeSrc = $('iframe').attr('src');
-    console.log(iframeSrc)
-    this.setState({theIframeSrc: iframeSrc})
 
   }
 
@@ -127,7 +121,9 @@ export default class App extends React.Component {
             <View style={styles.container}>
                 <WebView
                   scrollEnabled = "false"
-                  
+                  //pc버전으로 보는거임.... 안드로이드 모바일 사클 레이아웃때메 안되서
+                  //userAgent= "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36"
+                  userAgent= "mozilla/5.0 (macintosh; intel mac os x 10_12_3) applewebkit/537.36 (khtml, like gecko) chrome/56.0.2924.87 safari/537.36"
                   source={{
                     html: (`
                   <html>
@@ -148,9 +144,6 @@ export default class App extends React.Component {
 
 
                         var widget = SC.Widget(document.getElementById("soundcloud_widget"));
-
-
-
 
                         
                         $(".play").click(function() {
@@ -206,9 +199,17 @@ export default class App extends React.Component {
                   
 
                           <div class="song_info" style="display: grid; grid-template-columns: 1fr 1fr;">
+
+                          
+
                               <iframe id="soundcloud_widget" style="display:block;"
-                                  src=${this.state.theIframeSrc}
+                                  src="https://w.soundcloud.com/player/?visual=false&url=${this.state.pickedIframeSrc}&show_artwork=false&auto_play=true&sharing=false&show_user=false"
+                                  allow="autoplay"
                                   frameborder="no"></iframe>
+
+
+
+
                               <div class="play" style="background-color: red"></div>
                           </div>
                   

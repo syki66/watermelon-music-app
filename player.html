@@ -6,22 +6,6 @@
   <script>
    $(document).ready(function() {
      var widget = SC.Widget(document.getElementById("soundcloud_widget"));
-     widget.bind(SC.Widget.Events.READY, function() { // 재생버튼 토글시 속도 저하 주범
-       console.log("Ready...");
-     });
-     $("button").click(function() {
-       widget.toggle();
-     });
-   });
-  </script>
-</head><!doctype html>
-<html>
-<head>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script src="http://w.soundcloud.com/player/api.js"></script>
-  <script>
-   $(document).ready(function() {
-     var widget = SC.Widget(document.getElementById("soundcloud_widget"));
 
      $(".play").click(function() {
        widget.toggle();
