@@ -7,6 +7,8 @@ import { WebView } from 'react-native-webview';
 
 
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
+const CLIENT_ID = "ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw";
+
 
 const screenWidth = Dimensions.get('window').width; //핸드폰 가로 사이즈
 console.log(screenWidth)
@@ -25,7 +27,7 @@ export default class App extends React.Component {
 
     this.state.rankData.map((each, i) => {
 
-        fetch(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw`).then((response) => {
+        fetch(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=${CLIENT_ID}`).then((response) => {
           return response.json();
         }).then((res) => {
             iframeArray[i] = res[0].permalink_url;

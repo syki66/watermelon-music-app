@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "free-melon-chart",
+    "name": "meeelooon",
     "slug": "free-melon-chart",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -24,7 +24,13 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.yourcompany.meeelooon",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.yourcompany.meeelooon",
+      "versionCode": 1
     },
     "description": ""
   }
