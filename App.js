@@ -25,7 +25,7 @@ export default class App extends React.Component {
 
     this.state.rankData.map((each, i) => {
 
-        fetch(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=MhsRoDc6eXwJmBNd2ph1Lih2atDZEiG3`).then((response) => {
+        fetch(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw`).then((response) => {
           return response.json();
         }).then((res) => {
             iframeArray[i] = res[0].permalink_url;
@@ -120,6 +120,8 @@ export default class App extends React.Component {
 
             <View style={styles.container}>
                 <WebView
+                  mediaPlaybackRequiresUserAction={false}  //이거 제일 중요함... false로 두면 오토플레이 가능...
+
                   scrollEnabled = "false"
                   //pc버전으로 보는거임.... 안드로이드 모바일 사클 레이아웃때메 안되서
                   //userAgent= "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36"

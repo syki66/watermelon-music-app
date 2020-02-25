@@ -12,17 +12,12 @@
     "cheerio": "^1.0.0-rc.3",
     "cheerio-without-node-native": "^0.20.2",
     "expo": "~36.0.0",
-    "expo-av": "^8.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
-    "react-native-soundcloud-waveform": "^1.0.3",
-    "react-native-track-player": "^1.2.2",
-    "react-native-video": "^5.0.2",
     "react-native-web": "~0.11.7",
     "react-native-webview": "^8.0.3",
     "react-player": "^1.14.2",
-    "react-soundcloud-widget": "^2.0.4",
     "soundcloud": "^3.3.2"
   },
   "devDependencies": {
