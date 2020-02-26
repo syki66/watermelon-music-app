@@ -20,7 +20,8 @@ export default class App extends React.Component {
     isLoading: true,
     rankData: [],
     iframeSrc: [],
-    pickedIframeSrc: "null"
+    pickedIframeSrc: "null",
+    pickedAlbumArt: "https://cdn1.iconfinder.com/data/icons/material-apps/512/icon-music-material-design-512.png"
   }
 
 
@@ -46,9 +47,12 @@ export default class App extends React.Component {
   showIframeSrc = (index) => {
 
     console.log(this.state.iframeSrc[index])
-    this.setState({pickedIframeSrc: this.state.iframeSrc[index]})
+    // 선택한 iframe 대입
+    this.setState({pickedIframeSrc: this.state.iframeSrc[index]});
 
-    console.log(screenWidth); //폰 가로사이즈 테스트
+    //선택한 앨범아트 대입
+    this.setState({pickedAlbumArt: this.state.rankData[index].cover});
+    console.log(this.state.rankData[index].cover);
   }
 
 
@@ -102,7 +106,7 @@ export default class App extends React.Component {
       ) : (
           <SafeAreaView>
               
-            <ScrollView>
+            <ScrollView style={{ marginBottom: screenWidth / 2.5}}>
 
               <View>
                 {this.state.rankData.map((each, i) => {
@@ -205,20 +209,23 @@ export default class App extends React.Component {
                     <body style="margin:0px">
 
 
+                      <iframe id="soundcloud_widget" style="display:none;"
+                        src="https://w.soundcloud.com/player/?visual=false&url=${this.state.pickedIframeSrc}&show_artwork=false&auto_play=true&sharing=false&show_user=false"
+                        allow="autoplay"
+                        frameborder="no"
+                      ></iframe>
+
+
                       <div style="display:grid; grid-template-rows: 1fr 1fr;">
                   
 
-                          <div class="song_info" style="display: grid; grid-template-columns: 1fr 1fr;">
+                          <div class="song_info" style="display: grid; grid-template-columns: ${screenWidth / 5}px 1fr ${screenWidth / 5}px">
 
-                          
-
-                              <iframe id="soundcloud_widget" style="display:none;"
-                                  src="https://w.soundcloud.com/player/?visual=false&url=${this.state.pickedIframeSrc}&show_artwork=false&auto_play=true&sharing=false&show_user=false"
-                                  allow="autoplay"
-                                  frameborder="no"></iframe>
+                              <img src=${this.state.pickedAlbumArt} style="width:${screenWidth / 5}"/>
 
 
-
+                              <div style="background-color:yellow;">${screenWidth}</div>
+                                    
 
                               <div class="play" style="background-color: red"></div>
                           </div>

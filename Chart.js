@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     },
     song_info_rank: {
         flex: 1,
-        fontSize: 10 * vw
+        fontSize: 20,
+        textAlign:"center"
     },
     song_info_2: {
         flex: 5
