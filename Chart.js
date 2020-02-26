@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, Alert, TouchableOpacity, Button, View, Image, StatusBar, SectionList, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, Dimensions, Alert, TouchableOpacity, Button, View, Image, StatusBar, SectionList, SafeAreaView, ScrollView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import axios from 'axios';
 
-
+const vw = Dimensions.get('window').width / 100; //핸드폰 가로 사이즈
 
 
 export default function Chart({rank, title, name, cover}) {
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     song_info_rank: {
-        fontSize:50,
-        width: 55
+        flex: 1,
+        fontSize: 10 * vw
     },
     song_info_2: {
-        flex: 1
+        flex: 5
     },
     song_info_2_title: {
         flex: 1,

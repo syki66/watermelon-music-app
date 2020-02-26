@@ -5,6 +5,8 @@ import axios from 'axios';
 import Chart from './Chart';
 import { WebView } from 'react-native-webview';
 
+import IsLoading from "./IsLoading";
+
 
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
 const CLIENT_ID = "ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw";
@@ -46,6 +48,7 @@ export default class App extends React.Component {
     console.log(this.state.iframeSrc[index])
     this.setState({pickedIframeSrc: this.state.iframeSrc[index]})
 
+    console.log(screenWidth); //폰 가로사이즈 테스트
   }
 
 
@@ -95,7 +98,7 @@ export default class App extends React.Component {
   render() {
     return (
       this.state.isLoading ? (
-        <Text>아직로딩중</Text>
+        <IsLoading />
       ) : (
           <SafeAreaView>
               
@@ -132,7 +135,10 @@ export default class App extends React.Component {
                     html: (`
                   <html>
                     <head>
-                    <meta name="viewport" content="initial-scale=0.5, maximum-scale=0.5">
+
+                      <meta name="viewport" content="width=device-width, user-scalable=no">
+
+
                       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
                       <script src="http://w.soundcloud.com/player/api.js"></script>
                       <script>
@@ -206,7 +212,7 @@ export default class App extends React.Component {
 
                           
 
-                              <iframe id="soundcloud_widget" style="display:block;"
+                              <iframe id="soundcloud_widget" style="display:none;"
                                   src="https://w.soundcloud.com/player/?visual=false&url=${this.state.pickedIframeSrc}&show_artwork=false&auto_play=true&sharing=false&show_user=false"
                                   allow="autoplay"
                                   frameborder="no"></iframe>
