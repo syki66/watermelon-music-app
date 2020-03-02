@@ -39,3 +39,4 @@ mediaPlaybackRequiresUserAction={false}
 - 다크모드
 - 제목 같은거 길어지면 옆으로 ... 처리하기, 슬라이딩 하던가
 - 자료 못가져왔으면 alert 창 띄워주기
+- 앨범커버 백그라운드에 항상 뭐 넣어주기.

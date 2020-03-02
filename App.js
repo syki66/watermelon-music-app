@@ -8,7 +8,7 @@ import { WebView } from 'react-native-webview';
 import IsLoading from "./IsLoading";
 
 
-const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1";
+const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1"; // 메인차트
 const CLIENT_ID = "ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw";
 
 
@@ -21,7 +21,9 @@ export default class App extends React.Component {
     rankData: [],
     iframeSrc: [],
     pickedIframeSrc: "null",
-    pickedAlbumArt: "https://cdn1.iconfinder.com/data/icons/material-apps/512/icon-music-material-design-512.png"
+    pickedCover: "https://cdn1.iconfinder.com/data/icons/material-apps/512/icon-music-material-design-512.png",
+    pickedTitle: "title",
+    pickedName: "name"
   }
 
 
@@ -47,12 +49,15 @@ export default class App extends React.Component {
   showIframeSrc = (index) => {
 
     console.log(this.state.iframeSrc[index])
-    // 선택한 iframe 대입
-    this.setState({pickedIframeSrc: this.state.iframeSrc[index]});
-
-    //선택한 앨범아트 대입
-    this.setState({pickedAlbumArt: this.state.rankData[index].cover});
-    console.log(this.state.rankData[index].cover);
+    
+    // 선택된 요소들 대입
+    this.setState({
+      pickedIframeSrc: this.state.iframeSrc[index],
+      pickedCover: this.state.rankData[index].cover,
+      pickedTitle: this.state.rankData[index].title,
+      pickedName: this.state.rankData[index].name
+    });
+    
   }
 
 
@@ -143,6 +148,81 @@ export default class App extends React.Component {
                       <meta name="viewport" content="width=device-width, user-scalable=no">
 
 
+
+
+
+
+                      <style>
+
+                      body {
+                        background-color: #74d37d;
+                      }
+
+                      .play_pause {
+                        display: block;
+                        width: 0;
+                        height: 0;
+                        border-top: 6vw solid transparent;
+                        border-bottom: 6vw solid transparent;
+                        border-left: 7.2vw solid #d96153;
+                        margin: auto auto auto auto;
+                        position: relative;
+                        z-index: 1;
+                        transition: all 0.3s;
+                        -webkit-transition: all 0.3s;
+                        -moz-transition: all 0.3s;
+                        left: 1.2vw;
+                      }
+                      .play_pause:before {
+                        content: '';
+                        position: absolute;
+                        top: -9vw;
+                        left: -13.8vw;
+                        bottom: -9vw;
+                        right: -4.2vw;
+                        border-radius: 50%;
+                        border: 1.2vw solid #d96153;
+                        z-index: 2;
+                        transition: all 0.3s;
+                        -webkit-transition: all 0.3s;
+                        -moz-transition: all 0.3s;
+                      }
+                      .play_pause:after {
+                        content: '';
+                        opacity: 0;
+                        transition: opacity 0.6s;
+                        -webkit-transition: opacity 0.6s;
+                        -moz-transition: opacity 0.6s;
+                      }
+                      .play_pause.active {
+                        border-color: transparent;
+                      }
+                      .play_pause.active:after {
+                        content: '';
+                        opacity: 1;
+                        width: 6vw;
+                        height: 9.6vw;
+                        background: #d96153;
+                        position: absolute;
+                        right: 0.6vw;
+                        top: -4.8vw;
+                        border-left: 2.4vw solid #d96153;
+                        box-shadow: inset 3.6vw 0 0 0 #74d37d;
+                      }
+                      
+                      
+                      
+                      
+
+
+                      </style>
+
+
+
+                      
+
+
+
                       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
                       <script src="http://w.soundcloud.com/player/api.js"></script>
                       <script>
@@ -160,10 +240,12 @@ export default class App extends React.Component {
                         var widget = SC.Widget(document.getElementById("soundcloud_widget"));
 
                         
-                        $(".play").click(function() {
+                        $(".play_pause").click(function() {
                           widget.toggle();
                         });
                   
+                          
+
 
    
                           let soundPos;
@@ -180,6 +262,15 @@ export default class App extends React.Component {
                               });
                               $('.playbar').width(soundPos*100+"%");
                    
+
+                              widget.isPaused(function (isPaused) {
+                                if (isPaused) {
+                                  $('.play_pause').removeClass('active');
+                                } else {
+                                  $('.play_pause').addClass('active');
+                                }
+                              });
+
                           }
                    
                    
@@ -199,9 +290,8 @@ export default class App extends React.Component {
               
                       });
 
-
-
                       </script>
+
                     </head>
 
 
@@ -221,18 +311,21 @@ export default class App extends React.Component {
 
                           <div class="song_info" style="display: grid; grid-template-columns: ${screenWidth / 5}px 1fr ${screenWidth / 5}px">
 
-                              <img src=${this.state.pickedAlbumArt} style="width:${screenWidth / 5}"/>
+                              <img src=${this.state.pickedCover} style="width:${screenWidth / 5}"/>
 
 
-                              <div style="background-color:yellow;">${screenWidth}</div>
+                              <div style="display: grid; background-color:yellow;">
+                                <div>${this.state.pickedTitle}</div>
+                                <div>${this.state.pickedName}</div>
+                              </div>
                                     
 
-                              <div class="play" style="background-color: red"></div>
+                              <div class="play_pause active" ></div>
                           </div>
                   
 
-                          <div class="parent_playbar" style=" width: 100%; background-color: gray; ">
-                              <div class="playbar" style=" background-color: orange; "></div>
+                          <div class="parent_playbar" style=" width: 100%; background-color: #74d37d; ">
+                              <div class="playbar" style=" background-color: #d96153; "></div>
                           </div>
                   
 

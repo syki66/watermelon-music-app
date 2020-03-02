@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "meeelooon",
-    "slug": "free-melon-chart",
+    "name": "WaterMelon",
+    "slug": "watermelon-free-chart",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -14,7 +14,7 @@
     "icon": "./assets/icon2.png",
     "splash": {
       "image": "./assets/splash2.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
