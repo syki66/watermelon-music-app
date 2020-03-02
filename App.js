@@ -158,14 +158,9 @@ export default class App extends React.Component {
                         background-color: #74d37d;
                       }
 
-                      body {
-                        background-color: #74d37d;
-                      }
-
-
                       .play-button {
-                        height: 20vw;
-                        width: 20vw;
+                        height: 16vw;
+                        width: 16vw;
                         display: block;
                         margin: auto;
                         overflow: hidden;
@@ -196,9 +191,9 @@ export default class App extends React.Component {
                         background-color: transparent;
                         width: 0;
                         height: 0;
-                        border-right: 20vw solid #74d37d;
-                        border-top: 10vw solid transparent;
-                        border-bottom: 10vw solid transparent;
+                        border-right: 16vw solid #74d37d;
+                        border-top: 8vw solid transparent;
+                        border-bottom: 8vw solid transparent;
                         -webkit-transition: -webkit-transform 0.25s ease;
                         transition: -webkit-transform 0.25s ease;
                         transition: transform 0.25s ease;
