@@ -158,57 +158,75 @@ export default class App extends React.Component {
                         background-color: #74d37d;
                       }
 
-                      .play_pause {
+                      body {
+                        background-color: #74d37d;
+                      }
+
+
+                      .play-button {
+                        height: 20vw;
+                        width: 20vw;
                         display: block;
+                        margin: auto;
+                        overflow: hidden;
+                        position: relative;
+                      }
+                      .left {
+                        height: 100%;
+                        float: left;
+                        background-color: #d96153;
+                        width: 36%;
+                        -webkit-transition: all 0.25s ease;
+                        transition: all 0.25s ease;
+                        overflow: hidden;
+                      }
+                      .triangle-1 {
+                        -webkit-transform: translate(0, -100%);
+                                transform: translate(0, -100%);
+                      }
+                      .triangle-2 {
+                        -webkit-transform: translate(0, 100%);
+                                transform: translate(0, 100%);
+                      }
+                      .triangle-1,
+                      .triangle-2 {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        background-color: transparent;
                         width: 0;
                         height: 0;
-                        border-top: 6vw solid transparent;
-                        border-bottom: 6vw solid transparent;
-                        border-left: 7.2vw solid #d96153;
-                        margin: auto auto auto auto;
-                        position: relative;
-                        z-index: 1;
-                        transition: all 0.3s;
-                        -webkit-transition: all 0.3s;
-                        -moz-transition: all 0.3s;
-                        left: 1.2vw;
+                        border-right: 20vw solid #74d37d;
+                        border-top: 10vw solid transparent;
+                        border-bottom: 10vw solid transparent;
+                        -webkit-transition: -webkit-transform 0.25s ease;
+                        transition: -webkit-transform 0.25s ease;
+                        transition: transform 0.25s ease;
+                        transition: transform 0.25s ease, -webkit-transform 0.25s ease;
                       }
-                      .play_pause:before {
-                        content: '';
-                        position: absolute;
-                        top: -9vw;
-                        left: -13.8vw;
-                        bottom: -9vw;
-                        right: -4.2vw;
-                        border-radius: 50%;
-                        border: 1.2vw solid #d96153;
-                        z-index: 2;
-                        transition: all 0.3s;
-                        -webkit-transition: all 0.3s;
-                        -moz-transition: all 0.3s;
+                      .right {
+                        height: 100%;
+                        float: right;
+                        width: 36%;
+                        background-color: #d96153;
+                        -webkit-transition: all 0.25s ease;
+                        transition: all 0.25s ease;
                       }
-                      .play_pause:after {
-                        content: '';
-                        opacity: 0;
-                        transition: opacity 0.6s;
-                        -webkit-transition: opacity 0.6s;
-                        -moz-transition: opacity 0.6s;
+                      .paused .left {
+                        width: 50%;
                       }
-                      .play_pause.active {
-                        border-color: transparent;
+                      .paused .right {
+                        width: 50%;
                       }
-                      .play_pause.active:after {
-                        content: '';
-                        opacity: 1;
-                        width: 6vw;
-                        height: 9.6vw;
-                        background: #d96153;
-                        position: absolute;
-                        right: 0.6vw;
-                        top: -4.8vw;
-                        border-left: 2.4vw solid #d96153;
-                        box-shadow: inset 3.6vw 0 0 0 #74d37d;
+                      .paused .triangle-1 {
+                        -webkit-transform: translate(0, -50%);
+                                transform: translate(0, -50%);
                       }
+                      .paused .triangle-2 {
+                        -webkit-transform: translate(0, 50%);
+                                transform: translate(0, 50%);
+                      }
+                      
                       
                       
                       
@@ -240,7 +258,7 @@ export default class App extends React.Component {
                         var widget = SC.Widget(document.getElementById("soundcloud_widget"));
 
                         
-                        $(".play_pause").click(function() {
+                        $(".play-button").click(function() {
                           widget.toggle();
                         });
                   
@@ -265,9 +283,9 @@ export default class App extends React.Component {
 
                               widget.isPaused(function (isPaused) {
                                 if (isPaused) {
-                                  $('.play_pause').removeClass('active');
+                                  $('.play-button').addClass('paused');
                                 } else {
-                                  $('.play_pause').addClass('active');
+                                  $('.play-button').removeClass('paused');
                                 }
                               });
 
@@ -320,7 +338,12 @@ export default class App extends React.Component {
                               </div>
                                     
 
-                              <div class="play_pause active" ></div>
+                              <div class="play-button paused">
+                                <div class="left"></div>
+                                <div class="right"></div>
+                                <div class="triangle-1"></div>
+                                <div class="triangle-2"></div>
+                              </div>
                           </div>
                   
 
