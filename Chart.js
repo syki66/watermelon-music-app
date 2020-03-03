@@ -20,8 +20,8 @@ export default function Chart({rank, title, name, cover}) {
             <View style={styles.song_info}>
                 <Text style={styles.song_info_rank}>{rank}</Text>
                 <View style={styles.song_info_2}>
-                    <Text style={styles.song_info_2_title}>{title}</Text>
-                    <Text style={styles.song_info_2_name}>{name}</Text>
+                    <Text numberOfLines={1} style={styles.song_info_2_title}>{title}</Text>
+                    <Text numberOfLines={1} style={styles.song_info_2_name}>{name}</Text>
                 </View>
 
             </View>
