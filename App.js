@@ -1,16 +1,18 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, Alert, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, TouchableOpacity, StatusBar, Text, Alert, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import cheerio from 'cheerio-without-node-native';
 import axios from 'axios';
 import Chart from './Chart';
 import { WebView } from 'react-native-webview';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import IsLoading from "./IsLoading";
 
 
 const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1"; // 메인차트
-const CLIENT_ID = "ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw";
 
+//클라이언트 아이디 하나당 하루 15000번 제한
+const CLIENT_ID = "ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw";
 
 const screenWidth = Dimensions.get('window').width; //핸드폰 가로 사이즈
 console.log(screenWidth)
@@ -26,15 +28,29 @@ export default class App extends React.Component {
     pickedName: "name"
   }
 
+  //괄호제거함수 재귀함수로 구현해서 괄호 다 없앨때까지 반복
+  searchFilter = (text) => {
+    let filteredText;
+    if (text.indexOf("(") != -1) {
+      filteredText = text.replace( text.substring(text.indexOf("("), text.indexOf(")")+1 ), "" ) ;
+      return this.searchFilter(filteredText);
+    }
+    else {
+      filteredText = text;
+      return filteredText;
+    }
+  }
+
+  
 
   getIframe = () => {
     let iframeArray = [];
 
     this.state.rankData.map((each, i) => {
-
-        fetch(`https://api.soundcloud.com/tracks?q=${each.title}%20${each.name}&format=json&client_id=${CLIENT_ID}`).then((response) => {
+        fetch(`https://api.soundcloud.com/tracks?q=${this.searchFilter(each.title)}%20${this.searchFilter(each.name)}&format=json&client_id=${CLIENT_ID}&limit=15`).then((response) => {
           return response.json();
         }).then((res) => {
+            console.log(each.rank, each.title, res[0].permalink_url);
             iframeArray[i] = res[0].permalink_url;
         }).catch( (error) => {
           console.log(each.rank, error);
@@ -109,9 +125,10 @@ export default class App extends React.Component {
       this.state.isLoading ? (
         <IsLoading />
       ) : (
-          <SafeAreaView>
+          <View>
+            <StatusBar barStyle="dark-content"/>
               
-            <ScrollView style={{ marginBottom: screenWidth / 2.5}}>
+            <ScrollView style={{ marginBottom: screenWidth / 2.5, marginTop: getStatusBarHeight()}}>
 
               <View>
                 {this.state.rankData.map((each, i) => {
@@ -363,7 +380,7 @@ export default class App extends React.Component {
                 />
               </View>
 
-          </SafeAreaView>
+          </View>
         )
     );
   }
