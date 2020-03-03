@@ -159,8 +159,8 @@ export default class App extends React.Component {
                       }
 
                       .play-button {
-                        height: 16vw;
-                        width: 16vw;
+                        height: 14vw;
+                        width: 14vw;
                         display: block;
                         margin: auto;
                         overflow: hidden;
@@ -191,9 +191,9 @@ export default class App extends React.Component {
                         background-color: transparent;
                         width: 0;
                         height: 0;
-                        border-right: 16vw solid #74d37d;
-                        border-top: 8vw solid transparent;
-                        border-bottom: 8vw solid transparent;
+                        border-right: 14vw solid #74d37d;
+                        border-top: 7vw solid transparent;
+                        border-bottom: 7vw solid transparent;
                         -webkit-transition: -webkit-transform 0.25s ease;
                         transition: -webkit-transform 0.25s ease;
                         transition: transform 0.25s ease;
@@ -327,9 +327,17 @@ export default class App extends React.Component {
                               <img src=${this.state.pickedCover} style="width:${screenWidth / 5}"/>
 
 
-                              <div style="display: grid; background-color:yellow;">
-                                <div>${this.state.pickedTitle}</div>
-                                <div>${this.state.pickedName}</div>
+                              <div style="display: grid;">
+                                <marquee 
+                                  direction="left" 
+                                  behavior="alternate"
+                                  scrollamount="1"
+                                  style="color: #d96153; font-size: 6vw">${this.state.pickedTitle}</marquee>
+                                <marquee 
+                                  direction="left" 
+                                  behavior="alternate"
+                                  scrollamount="2"
+                                  style="color: #d96153;">${this.state.pickedName}</marquee>
                               </div>
                                     
 
