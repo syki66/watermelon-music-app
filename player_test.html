@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="http://w.soundcloud.com/player/api.js"></script>
+  <script>
+   $(document).ready(function() {
+     var widget = SC.Widget(document.getElementById("soundcloud_widget"));
+
+    //    widget.bind(SC.Widget.Events.READY, function () {
+
+
+
+    //    });
+// function azom () {
+//        var event = $.Event('click');
+//         event.clientX = 25;
+//         event.clientY = 25;
+//         $('.parent_player').trigger(event);
+//         console.log("abdf")
+// }
+
+// setInterval(azom, 1000)
+
+     $(".play").click(function() {
+       widget.toggle();
+     });
+
+     $(".bar").click(function() {
+       widget.seekTo(30000);;
+     });
+
+
+    //     //곡 길이측정
+    //     $('.duration').click(function () {
+    //        widget.getDuration(function (duration) {
+    //            console.log(duration);
+    //        });
+    //    });
+
+    //    //곡 현재위치
+    //    $('.position').click(function () {
+    //        widget.getPosition(function (duration) {
+    //            console.log(duration);
+    //        });
+    //    });
+
+
+
+
+    //    //곡 길이측정
+    //    function getDuration () {
+    //        widget.getDuration(function (dur) {
+    //            console.log(dur);
+    //        });
+    //    }
+
+    //    //곡 현재위치
+    //    function getPosition() {
+    //        widget.getPosition(function (pos) {
+    //            console.log(pos);
+    //        });
+    //    }
+
+       let soundPos;
+       let duration;
+       function soundPosition(){
+
+           widget.getPosition(function (pos) {
+
+               widget.getDuration(function (dur) {
+                   soundPos = pos/dur;
+                   duration = dur;
+               });
+
+           });
+           $('.playbar').width(`${soundPos*100}%`);
+
+       }
+
+
+       setInterval(  soundPosition, 100);
+
+
+
+
+
+       $('.parent_playbar').click(function (e) {
+           var parentOffset = $(this).offset();
+           //or $(this).offset(); if you really just want the current element's offset
+           var relX = e.pageX - parentOffset.left;
+
+           pickedPosition = relX / $('.parent_playbar').width();
+
+           widget.seekTo(pickedPosition * duration); //현재 클랙한 노래 위치로 변환
+           
+       });
+
+
+
+
+
+
+   });
+  </script>
+</head>
+<body>
+    <div style="display:grid; grid-template-rows: 5fr 1fr;">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr;">
+            <iframe id="soundcloud_widget"
+                src="https://w.soundcloud.com/player/?visual=false&url=https%3A//api.soundcloud.com/tracks/714489205&show_artwork=false&auto_play=true&sharing=false&show_user=false"
+                allow="autoplay"
+                width="100%" height="100%" frameborder="no"></iframe>
+            <button class="play">Play / Pause</button>
+        </div>
+
+        <div class="parent_playbar" style=" width: 100%; height: 50px; background-color: gray; ">
+            <div class="playbar" style=" height: 50px; background-color: orange; "></div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+
+
