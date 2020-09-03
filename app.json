@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "splash": {
@@ -25,7 +25,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.syki66.watermelon",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.1.0",
       "supportsTablet": true
     },
     "android": {
