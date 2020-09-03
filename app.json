@@ -3,7 +3,6 @@
     "name": "WaterMelon",
     "slug": "watermelon-free-chart",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
