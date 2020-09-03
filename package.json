@@ -11,7 +11,7 @@
     "axios": "^0.19.1",
     "cheerio": "^1.0.0-rc.3",
     "cheerio-without-node-native": "^0.20.2",
-    "expo": "^38.0.0",
+    "expo": "^38.0.10",
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
