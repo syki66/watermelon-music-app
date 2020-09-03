@@ -9,10 +9,10 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import IsLoading from "./IsLoading";
 
 
-const MELON_LINK = "https://www.melon.com/chart/index.htm#params%5Bidx%5D=1"; // 메인차트
+const MELON_LINK = "https://www.melon.com/chart/day/index.htm"; // 메인차트
 
 //클라이언트 아이디 하나당 하루 15000번 제한
-const CLIENT_ID = "ngEp5aNucS3CkLxgFO78bD1pbJdpaFtw";
+const CLIENT_ID = "yBT1d8kK7at5QuM6ik9RFcvPvDTi4xyP";
 
 const screenWidth = Dimensions.get('window').width; //핸드폰 가로 사이즈
 console.log(screenWidth)
@@ -47,11 +47,11 @@ export default class App extends React.Component {
     let iframeArray = [];
 
     this.state.rankData.map((each, i) => {
-        fetch(`https://api.soundcloud.com/tracks?q=${this.searchFilter(each.title)}%20${this.searchFilter(each.name)}&format=json&client_id=${CLIENT_ID}&limit=15`).then((response) => {
+        fetch(`https://api-v2.soundcloud.com/search?q=${this.searchFilter(each.title)}%20${this.searchFilter(each.name)}&facet=model&user_id=698189-13257-213778-325874&limit=15&offset=0&linked_partitioning=1&client_id=${CLIENT_ID}&app_version=d8c55ad`).then((response) => {
           return response.json();
         }).then((res) => {
-            console.log(each.rank, each.title, res[0].permalink_url);
-            iframeArray[i] = res[0].permalink_url;
+            //console.log(each.rank, each.title, res.collection[0].permalink_url);
+            iframeArray[i] = res.collection[0].permalink_url;
         }).catch( (error) => {
           console.log(each.rank, error);
         })

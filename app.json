@@ -24,12 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.syki.watermelon",
+      "bundleIdentifier": "com.syki66.watermelon",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.syki.watermelon",
+      "package": "com.syki66.watermelon",
       "permissions": [],
       "versionCode": 1
     },
