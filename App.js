@@ -12,7 +12,7 @@ import IsLoading from "./IsLoading";
 const MELON_LINK = "https://www.melon.com/chart/day/index.htm"; // 메인차트
 
 //클라이언트 아이디 하나당 하루 15000번 제한
-const CLIENT_ID = "yBT1d8kK7at5QuM6ik9RFcvPvDTi4xyP";
+const CLIENT_ID = "0gk6cWFxRJcIGpDjYPiqm0zXGM6O6cLx";
 
 const screenWidth = Dimensions.get('window').width; //핸드폰 가로 사이즈
 console.log(screenWidth)
