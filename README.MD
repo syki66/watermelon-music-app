@@ -47,3 +47,14 @@ mediaPlaybackRequiresUserAction={false}
 - 제목 같은거 길어지면 옆으로 ... 처리하기, 슬라이딩 하던가
 - 자료 못가져왔으면 alert 창 띄워주기
 - 앨범커버 백그라운드에 항상 뭐 넣어주기.
+
+
+
+
+플레이 스토어 업데이트 하려면 `app.json`에서 `versionCode` 숫자 올려야됨
+
+```json
+    "android": {
+      "versionCode": 2
+    },
+```
