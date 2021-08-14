@@ -1,4 +1,6 @@
-# melon webcrwaling
+# watermelon-music-app
+
+free android ios music app
 
 리액트 네이티브용 cheerio
 
@@ -28,8 +30,13 @@ mediaPlaybackRequiresUserAction={false}
 웹뷰를 사용해야 또 cdn 임포트해서 사클 음원들 세세하게 몇초 지났나 지금 몇초쯤인가 설정할수 있어서 그렇게 했고,
 그거로 플레이 스탑버튼 만들고, 핸드폰 가로사이즈의 1/5 만큼의 높이를 가진 플레이바? 재생 위치  설정하는거 만들었고,
 
-# watermelon v1.1 수정사항
 
+## Version 1.1.1 (build 2020.09.03)
+
+- 멜론 차트에서 크롤링한 순위 및 음악 정보 데이터 사용
+- 사운드클라우드 api를 이용하여 멜론 차트의 노래와 매치
+- 플레이어바는 웹뷰를 이용하여 구현
+- sdk 호환성 오류 수정
 - 멜론에서 실시간 차트는 랜덤하게 부여되는걸로 바뀌어서, 데이 차트로 바꿈
 
 
